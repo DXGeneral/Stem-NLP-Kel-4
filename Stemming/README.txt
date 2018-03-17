@@ -1,0 +1,1 @@
+java <Main Class> (arg Input_File) > (arg Output_File)
