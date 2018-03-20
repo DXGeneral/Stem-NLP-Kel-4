@@ -21,7 +21,7 @@ class CountingOccureences {
 		e.printStackTrace();
 	}
 	
-	String clearString = testInput.replaceAll("\\p{P}", "").toLowerCase();
+	String clearString = testInput.replaceAll("\\p{P}", " ").toLowerCase();
 	
     // String example = "The quick brown fox jumps over the lazy dog, the dog catches the fox";
     
