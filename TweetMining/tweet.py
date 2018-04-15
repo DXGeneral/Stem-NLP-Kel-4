@@ -11,7 +11,24 @@ auth = OAuthHandler(consumer_key, consumer_secret)
 #auth.set_access_token(access_token, access_secret)
  
 api = tweepy.API(auth)
-for tweet in tweepy.Cursor(api.search, q="jaringan", tweet_mode='extended').items(1000):
-    obj = tweet._json
+#for tweet in tweepy.Cursor(api.search, q="jaringan", tweet_mode='extended').items(1000):
+#    obj = tweet._json
 #    print(obj.keys())
-    print(obj['full_text'])
+#    print(obj['full_text'])
+    
+# import Sastrawi package
+from Sastrawi.Stemmer.StemmerFactory import StemmerFactory
+
+# create stemmer
+factory = StemmerFactory()
+stemmer = factory.create_stemmer()
+
+# stem
+sentence = 'Perekonomian Indonesia sedang dalam pertumbuhan yang membanggakan'
+output   = stemmer.stem(sentence)
+
+print(output)
+# ekonomi indonesia sedang dalam tumbuh yang bangga
+
+print(stemmer.stem('Mereka meniru-nirukannya'))
+# mereka tiru
