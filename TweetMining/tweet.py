@@ -1,4 +1,5 @@
 import tweepy
+import json
 from tweepy import OAuthHandler
  
 consumer_key = 'OU4n6gpftucZHbF727ylx6pe3'
@@ -10,6 +11,7 @@ auth = OAuthHandler(consumer_key, consumer_secret)
 #auth.set_access_token(access_token, access_secret)
  
 api = tweepy.API(auth)
-for tweet in api.search(q="jaringan", rpp=100):
-	print(tweet.text)
-	print('\n')
+for tweet in tweepy.Cursor(api.search, q="jaringan", tweet_mode='extended').items(1000):
+    obj = tweet._json
+#    print(obj.keys())
+    print(obj['full_text'])
