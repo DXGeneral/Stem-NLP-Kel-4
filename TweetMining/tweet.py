@@ -10,14 +10,15 @@ access_secret = 'n4bub6B82yAfqTgzYm4vQLCb2a0JPas6aGPMtb2gX08Ly'
  
 auth = OAuthHandler(consumer_key, consumer_secret)
 #auth.set_access_token(access_token, access_secret)
- 
+
 """
 #TWEET MINING
 api = tweepy.API(auth)
 f = open('tweets.txt', 'w+', encoding="utf-8")
+jumlah_data_yang_diinginkan = 1000
 for i in list(['jaringan','4g','3g','koneksi','gsm','hdspa','edge']):
     for j in list(['lambat','lemot','lelet','goblok','anjing','bego','cacat']):
-        for tweet in tweepy.Cursor(api.search, q=[i,j], tweet_mode='extended', geocode="-7.614529,110.712246,583km").items(1000):
+        for tweet in tweepy.Cursor(api.search, q=[i,j], tweet_mode='extended', geocode="-7.614529,110.712246,583km").items(jumlah_data_yang_diinginkan):
             obj = tweet._json
             #print(obj.keys())
             #print(obj['full_text'])
