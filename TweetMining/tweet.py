@@ -1,6 +1,7 @@
 import tweepy
 import json
 from tweepy import OAuthHandler
+import numpy as np
  
 consumer_key = 'OU4n6gpftucZHbF727ylx6pe3'
 consumer_secret = '9G2RBxpTCQwXiUqhLlpvrnj4arzOLTKbAPhEhfSYJQs5Uv0onD'
@@ -10,11 +11,20 @@ access_secret = 'n4bub6B82yAfqTgzYm4vQLCb2a0JPas6aGPMtb2gX08Ly'
 auth = OAuthHandler(consumer_key, consumer_secret)
 #auth.set_access_token(access_token, access_secret)
  
+"""
+#TWEET MINING
 api = tweepy.API(auth)
-#for tweet in tweepy.Cursor(api.search, q="jaringan", tweet_mode='extended').items(1000):
-#    obj = tweet._json
-#    print(obj.keys())
-#    print(obj['full_text'])
+f = open('tweets.txt', 'w+', encoding="utf-8")
+for i in list(['jaringan','4g','3g','koneksi','gsm','hdspa','edge']):
+    for j in list(['lambat','lemot','lelet','goblok','anjing','bego','cacat']):
+        for tweet in tweepy.Cursor(api.search, q=[i,j], tweet_mode='extended', geocode="-7.614529,110.712246,583km").items(1000):
+            obj = tweet._json
+            #print(obj.keys())
+            #print(obj['full_text'])
+            f.write(obj['full_text'])
+            f.write("\n")
+f.close()
+"""
     
 # import Sastrawi package
 from Sastrawi.Stemmer.StemmerFactory import StemmerFactory
