@@ -41,26 +41,29 @@ stemmer = factory.create_stemmer()
 #print(output)
 # ekonomi indonesia sedang dalam tumbuh yang bangga
 
-print(stemmer.stem('keluhan'))
+#print(stemmer.stem('koneksi'))
 # mereka tiru
 
-# ======================= Kelompok Kata & Bobot ============================
+# ======================= Kelompok Kata & Bobot ===============================
 
-nouns = ['jaringan', '4g', '3g', 'koneksi', 'hsdpa', 'h+', 'edge']
-adjs = ['lambat', 'lemot', 'lelet', 'goblok', 'anjing', 'bego', 'cacat']
+nouns = ['jaring', '4g', '3g', 'koneksi', 'hsdpa', 'h+', 'edge']
+adjs = ['lambat', 'lemot', 'lelet']
 customerWords = ['kenapa', 'tolong']
+kataKasar = ['goblok', 'anjing', 'bego', 'cacat', 'maling']
 
 kataOA = ['kait', 'info', 'pantau', 'ketidaknyamanan', 'kendala', 'kena', 'keluh', 'privasi']
 
 # =============================================================================
 
-def filtering (rawDatas):
+# ======================= Fungsi Filtering Data ===============================
+
+def filtering (rawDatas, stemmer):
 # Mencari data mengenai keluhan jaringan dari pelanggan    
     filteredDatas = []
     
     for data in rawDatas:
         poin = 0
-        output = stemmer.stem(data)
+        output = stemmer.stem(data.lower())
         
         words = output.split(' ')
         for word in words:
@@ -68,18 +71,48 @@ def filtering (rawDatas):
                 poin = poin +1
                 
             if word in adjs:
-                poin = poin +1
+                poin = poin +2
                 
             if word in customerWords:
-                poin = poin +1
+                poin = poin +2
+                
+            if word in kataKasar:
+                poin = poin +3
                 
             if word in kataOA:
-                poin = poin -1
+                poin = poin -2
         
-        if poin > 0:
+        print(poin)
+        if poin >= 3:
             filteredDatas.append(data)
     
     return filteredDatas;
+
+# =============================================================================
+
+# ================== Proses Filter mengunakan Stemming ========================
+# 
+
+word = [
+        'AXISgsm kenapa yah, jaringan lemot banget.. pusiiing dahh gua pake @ask_AXIS',
+        '@AdhiHardiansyah Hai, Mas Adhi. Jika mengalami akses internet lambat kembali, coba menggunakan mode jaringan 3G only dahulu. Agar dapat dibantu cek status kartu serta data terjaga, infokan nomor dengan lengkap dan tipe HP via DM. Terima kasih. -Sakhi',
+        'myXLCare hi XL, sudah beberapa hari ini lambat sekali ya. Hari ini yang paling parah di jaringan LTE nya. Youtube, browsing, twitter, instagram, dll lambat bgt. Kenapa?',
+        'FirstMediaCares siang min, saya pelanggan 80844501 bbrp hari ini bahkan minggu lalu sempat terjadi hal yg sama. Jaringan sangat lambat (lemot). Mhn diperbaiki dalam waktu 2 jam atau akhir bulan ini kalian ambil kembali property kalian dari rumah saya. Tq',
+        '@thoriqulM  Hai, Mas Thoriqul. Mohon maaf atas ketidaknyamanannya. Mengenai keluhan akses lambat, disarankan resatart HP dahulu. Infokan via DM : 1. Apakah di nomor 082234263xxx? 2. Lokasi 3. Jaringan didapat 4. Keluhan sejak kapan agar kerahasiaan data terjaga. Tks :) -Ale',
+        'Jaringan 4G dari @telkomsel di manokwari emang TOP BANGET! 48,71 KB. KILOBYTE LOH!!!! Untuk ukuran 4G itu lambat banget!!! AKU CINTA PRODUK INDONESIA!!! https://t.co/75xBLrpv0p',
+        '@XLAxiata_Tbk @celath @myXLCare Ini provider isiny cm maling, jaringan kyk tai ngak stabil aja iklan di gedein goblok l xl. Maling pulsa, maling paket ckckckc anjing l xl kampret',
+        '@myXLCare @hak_bersuara Provider bangsat, kerahasian tai l xl goblok. Sms ngak jelas,rbt nipu,fb nipi,jaringan nipu bangsat l xl. Ada jg ini provider lha maling sesungguhnya. Eh cs bangsat ganti l anjing kerugian2 konsumen kampret l xl maling.'
+        'myXL fuck XL jaringan internet paling lemot! Lu liat nih kecepatan internet yang lu berikan 0,22 Mbps? Lu bilang speed dial up lu nyampe 50Mbps dari HONGKONG 50 Mbps https://t.co/gxm7Cp0EgY',
+        'RT @hollyshit87: @IndosatCare @aurorasytr goblok! Bukannya diperkuat jaringan nya tapi masih ttp aja nyuruh konsumen pake cara bodoh kaya g…',
+        'Anjing bangsat ngentot busuk jaringan lo ga bener bener najis goblok @TelkomCare'    
+        ]
+
+x = filtering(word, stemmer)
+
+for word in x:
+    print(word)
+
+# =============================================================================
 
 
     
