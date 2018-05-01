@@ -81,8 +81,9 @@ def filtering (rawDatas, stemmer):
                 
             if word in kataOA:
                 poin = poin -2
-        
-        print(poin)
+                
+#        Gunakan kode berikut untuk validasi poin
+#        print(poin)
         if poin >= 3:
             filteredDatas.append(data)
     
@@ -92,6 +93,8 @@ def filtering (rawDatas, stemmer):
 
 # ================== Proses Filter mengunakan Stemming ========================
 # 
+
+# Parameter word untuk array f tweet yang akan diproses
 
 word = [
         'AXISgsm kenapa yah, jaringan lemot banget.. pusiiing dahh gua pake @ask_AXIS',
@@ -107,9 +110,11 @@ word = [
         'Anjing bangsat ngentot busuk jaringan lo ga bener bener najis goblok @TelkomCare'    
         ]
 
-x = filtering(word, stemmer)
+result = filtering(word, stemmer)
 
-for word in x:
+# Parameter result untuk array of tweet yang sudah terfilter
+
+for word in result:
     print(word)
 
 # =============================================================================
