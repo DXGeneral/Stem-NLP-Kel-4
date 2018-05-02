@@ -68,18 +68,14 @@ def filtering (rawDatas, stemmer):
         words = output.split(' ')
         for word in words:
             if word in nouns:
-                poin = poin +1
-                
-            if word in adjs:
-                poin = poin +2
-                
-            if word in customerWords:
-                poin = poin +2
-                
-            if word in kataKasar:
-                poin = poin +3
-                
-            if word in kataOA:
+                poin = poin +1                
+            elif word in adjs:
+                poin = poin +2                
+            elif word in customerWords:
+                poin = poin +2                
+            elif word in kataKasar:
+                poin = poin +3                
+            elif word in kataOA:
                 poin = poin -2
                 
 #        Gunakan kode berikut untuk validasi poin
