@@ -48,13 +48,52 @@ import time
 # ======================= Kelompok Kata & Bobot ===============================
 
 nouns = ['jaring', '4g', '3g', 'koneksi', 'hsdpa', 'h+', 'edge']
-adjs = ['lambat', 'lemot', 'lelet']
-customerWords = ['kenapa', 'tolong']
+adjs = ['lambat', 'lemot', 'lelet', 'lot']
+customerWords = ['kenapa', 'tolong', 'banget']
 kataKasar = ['goblok', 'anjing', 'bego', 'cacat', 'maling']
 
 kataOA = ['kait', 'info', 'pantau', 'ketidaknyamanan', 'kendala', 'kena', 'keluh', 'privasi']
 
 # =============================================================================
+
+# =================== Fungsi Klasifikasi Data Keluhan =========================
+
+def debug_isKeluhan (data):
+# Menentukan data mengenai keluhan jaringan dari pelanggan    
+    
+    # create stemmer
+    factory = StemmerFactory()
+    stemmer = factory.create_stemmer()
+    
+    poin = 0
+    output = stemmer.stem(data)#data.lower()
+        
+    words = output.split(' ')
+    for word in words:
+        if word in nouns:
+            poin = poin +1                
+        elif word in adjs:
+            poin = poin +2                
+        elif word in customerWords:
+            poin = poin +2                
+        elif word in kataKasar:
+            poin = poin +3                
+        elif word in kataOA:
+            poin = poin -3
+        else:
+            poin = poin + 0
+            
+            print("Kata: ", word, "Poin: ", poin)
+
+#Gunakan kode berikut untuk validasi poin
+#    print(poin)
+    if poin >= 3:
+        return True;
+    else:
+        return False;
+
+# =============================================================================
+
 
 # =================== Fungsi Klasifikasi Data Keluhan =========================
 
@@ -80,9 +119,11 @@ def isKeluhan (data):
             poin = poin +3                
         elif word in kataOA:
             poin = poin -3
+        else:
+            poin = poin + 0
 
 #Gunakan kode berikut untuk validasi poin
-#print(poin)
+#    print(poin)
     if poin >= 3:
         return True;
     else:
@@ -97,7 +138,7 @@ def filtering (rawDatas):
     filteredDatas = []
     
     for data in rawDatas:
-        if isKeluhan(data) is not True:
+        if isKeluhan(data):
             filteredDatas.append(data)
     
     return filteredDatas;
@@ -158,18 +199,19 @@ start = time.time()
 # Parameter word untuk array f tweet yang akan diproses
 """
 word = [
-        'AXISgsm kenapa yah, jaringan lemot banget.. pusiiing dahh gua pake @ask_AXIS',
-        '@AdhiHardiansyah Hai, Mas Adhi. Jika mengalami akses internet lambat kembali, coba menggunakan mode jaringan 3G only dahulu. Agar dapat dibantu cek status kartu serta data terjaga, infokan nomor dengan lengkap dan tipe HP via DM. Terima kasih. -Sakhi',
+        'https://t.co/l5DyhZMO0a @IndosatCare  masih lemot nih Indosat. Jaringan sudah 4G - Indosat Ooredoo..  Lemot cuma di rumah saya saja.',
+        '@TelkomCare Mohon cek jaringan dong. Ini internet Indihome kok lemot LAGI ya???',
         'myXLCare hi XL, sudah beberapa hari ini lambat sekali ya. Hari ini yang paling parah di jaringan LTE nya. Youtube, browsing, twitter, instagram, dll lambat bgt. Kenapa?',
-        'FirstMediaCares siang min, saya pelanggan 80844501 bbrp hari ini bahkan minggu lalu sempat terjadi hal yg sama. Jaringan sangat lambat (lemot). Mhn diperbaiki dalam waktu 2 jam atau akhir bulan ini kalian ambil kembali property kalian dari rumah saya. Tq',
-        'Jaringan 4G dari @telkomsel di manokwari emang TOP BANGET! 48,71 KB. KILOBYTE LOH!!!! Untuk ukuran 4G itu lambat banget!!! AKU CINTA PRODUK INDONESIA!!! https://t.co/75xBLrpv0p',
-        '@XLAxiata_Tbk @celath @myXLCare Ini provider isiny cm maling, jaringan kyk tai ngak stabil aja iklan di gedein goblok l xl. Maling pulsa, maling paket ckckckc anjing l xl kampret',
-        '@myXLCare @hak_bersuara Provider bangsat, kerahasian tai l xl goblok. Sms ngak jelas,rbt nipu,fb nipi,jaringan nipu bangsat l xl. Ada jg ini provider lha maling sesungguhnya. Eh cs bangsat ganti l anjing kerugian2 konsumen kampret l xl maling.'
-        'myXL fuck XL jaringan internet paling lemot! Lu liat nih kecepatan internet yang lu berikan 0,22 Mbps? Lu bilang speed dial up lu nyampe 50Mbps dari HONGKONG 50 Mbps https://t.co/gxm7Cp0EgY',
-        'RT @hollyshit87: @IndosatCare @aurorasytr goblok! Bukannya diperkuat jaringan nya tapi masih ttp aja nyuruh konsumen pake cara bodoh kaya g…',
-        'Anjing bangsat ngentot busuk jaringan lo ga bener bener najis goblok @TelkomCare'    
+        '@IndosatCare indosat jaringan 4g tapi lemot parah',
+        '@IndosatCare jaringan indosat hari ini lg lemot bgt apa gmn ya?',
+        'Sepertinya jaringan internet indonesia lagi error. Yang pake ini itu pada ngeluh lemot',
+        '@Telkomsel jaringan telkomsel d tangerang lg bermasalah kah? Lemot sekali internet 2 hari ini. Beli paketnya mahal lho d banding yg lain.',
+        '@triindonesia jaringan 3 di Kebalen, Bekasi Utara, 2 hari ini untuk download, browsing lemot banget, sering putus, mohon dicek jaringannya',
+        '@IndosatCare min kuota saya masih banyak tapi internetnya tidak bisa dipakai, lemot sejak semalam, ada perbaikan jaringan apa gimana?',
+        '@MNCPlayID min ini jaringan net nya kok lemot bgt ya sering RTO . Pdhl bayar nya saya lancar tp internet nya lemot -_-'    
         ]
 """
+
 import pandas as pd
 csv_file = 'tweets-full.csv'
 df = pd.read_csv(csv_file, sep=';', encoding="ISO-8859-1", error_bad_lines=False, warn_bad_lines=False)
@@ -182,22 +224,22 @@ label = df.Label
 
 #print(label.value_counts())
 
-#prediction = classification(word)
+prediction = classification(word)
 
-#scoring(prediction, label)
+scoring(prediction, label)
 
 # OUTPUT KE FILE CSV
 
-result = filtering(word)
+#result = filtering(word)
 
-import numpy
-a = numpy.asarray(result)
-numpy.savetxt("output.csv", a, fmt="%s", delimiter=";", encoding="ISO-8859-1")
+#import numpy
+#a = numpy.asarray(result)
+#numpy.savetxt("output.csv", a, fmt="%s", delimiter=";", encoding="ISO-8859-1")
 
 # Parameter result untuk array of tweet yang sudah terfilter
 
-#for word in result:
-#    print(word)
+#for pala in word:
+#    print(debug_isKeluhan(pala))
 
 end = time.time()
 
